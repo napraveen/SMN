@@ -1,19 +1,26 @@
 import './App.css';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
+import PrivateRoute from './utils/PrivateRoute';
+import { AuthProvider } from './context/AuthContext';
+
 function App() {
+  const isAuthenticated = false;
+
   return (
     <div className="App">
-      <Router>
+      <AuthProvider>
+        <Header />
         <Routes>
-          <Header />
-          <Route path="/" element={<HomePage />} />
+          <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
         </Routes>
-      </Router>
-      Here is our React Website
+        Here is our React Website
+      </AuthProvider>
     </div>
   );
 }
